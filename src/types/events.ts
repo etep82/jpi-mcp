@@ -1,6 +1,7 @@
 /**
  * JPI API Event Schemas
  * Types for JPI Events
+ * Field names use PascalCase to match JPI API exactly
  */
 
 import { EventType, EventObjectType } from './enums.js';
@@ -11,31 +12,31 @@ import { EventType, EventObjectType } from './enums.js';
 
 export interface JPIEventEntity {
   // Azure Table Storage fields
-  partitionKey?: string | null;
-  rowKey?: string | null;
-  eTag?: unknown;
-  timestamp?: string | null;
+  PartitionKey?: string | null;
+  RowKey?: string | null;
+  ETag?: unknown;
+  Timestamp?: string | null;
 
   // Object identification
-  objectGuid?: string | null;
-  objectType?: string | null;
-  objectName?: string | null;
+  ObjectGuid?: string | null;
+  ObjectType?: string | null;
+  ObjectName?: string | null;
 
   // Event metadata
-  jpiEvent?: string | null;
-  eventType?: EventType;
-  eventObject?: EventObjectType;
+  JpiEvent?: string | null;
+  EventType?: EventType;
+  EventObject?: EventObjectType;
 
   // Change details
-  prevValue?: string | null;
-  value?: string | null;
+  PrevValue?: string | null;
+  Value?: string | null;
 
   // Context
-  parentName?: string | null;
-  customerName?: string | null;
-  user?: string | null;
+  ParentName?: string | null;
+  CustomerName?: string | null;
+  User?: string | null;
 
   // Timestamps
-  createdAt?: string | null;
-  myCreatedAt?: string | null;
+  CreatedAt?: string | null;
+  MyCreatedAt?: string | null;
 }

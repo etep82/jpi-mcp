@@ -18,6 +18,7 @@ export enum Strategy {
 }
 
 export enum TemplateStrategy {
+  NotSet = 'NotSet',
   Asap = 'Asap',
   Jit = 'Jit',
   ASAP_PLUS = 'ASAP_PLUS',
@@ -122,9 +123,34 @@ export enum Weekday {
 }
 
 export enum EventType {
-  Created = 'Created',
-  Updated = 'Updated',
-  Deleted = 'Deleted'
+  // Job events
+  JobCreated = 'JobCreated',
+  JobUpdated = 'JobUpdated',
+  JobDeleted = 'JobDeleted',
+  // Task events
+  TaskCreated = 'TaskCreated',
+  TaskUpdated = 'TaskUpdated',
+  TaskDeleted = 'TaskDeleted',
+  // Component events
+  ComponentCreated = 'ComponentCreated',
+  ComponentUpdated = 'ComponentUpdated',
+  ComponentDeleted = 'ComponentDeleted',
+  // Resource events
+  ResourceCreated = 'ResourceCreated',
+  ResourceUpdated = 'ResourceUpdated',
+  ResourceDeleted = 'ResourceDeleted',
+  // Resource Group events
+  ResourceGroupCreated = 'ResourceGroupCreated',
+  ResourceGroupUpdated = 'ResourceGroupUpdated',
+  ResourceGroupDeleted = 'ResourceGroupDeleted',
+  // Resource Category events
+  ResourceCategoryCreated = 'ResourceCategoryCreated',
+  ResourceCategoryUpdated = 'ResourceCategoryUpdated',
+  ResourceCategoryDeleted = 'ResourceCategoryDeleted',
+  // Job Template events
+  JobTemplateCreated = 'JobTemplateCreated',
+  JobTemplateUpdated = 'JobTemplateUpdated',
+  JobTemplateDeleted = 'JobTemplateDeleted'
 }
 
 export enum EventObjectType {

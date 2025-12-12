@@ -1,6 +1,7 @@
 /**
  * JPI API Settings Schemas
  * Types for Application Settings
+ * Field names use PascalCase to match JPI API exactly
  */
 
 import {
@@ -27,186 +28,186 @@ import {
 
 export interface GetSettings {
   // Job Custom Fields (1-10)
-  jobCustomField1?: GetCustomField;
-  jobCustomField2?: GetCustomField;
-  jobCustomField3?: GetCustomField;
-  jobCustomField4?: GetCustomField;
-  jobCustomField5?: GetCustomField;
-  jobCustomField6?: GetCustomField;
-  jobCustomField7?: GetCustomField;
-  jobCustomField8?: GetCustomField;
-  jobCustomField9?: GetCustomField;
-  jobCustomField10?: GetCustomField;
+  JobCustomField1?: GetCustomField;
+  JobCustomField2?: GetCustomField;
+  JobCustomField3?: GetCustomField;
+  JobCustomField4?: GetCustomField;
+  JobCustomField5?: GetCustomField;
+  JobCustomField6?: GetCustomField;
+  JobCustomField7?: GetCustomField;
+  JobCustomField8?: GetCustomField;
+  JobCustomField9?: GetCustomField;
+  JobCustomField10?: GetCustomField;
 
   // Task Custom Fields (1-10)
-  taskCustomField1?: GetCustomField;
-  taskCustomField2?: GetCustomField;
-  taskCustomField3?: GetCustomField;
-  taskCustomField4?: GetCustomField;
-  taskCustomField5?: GetCustomField;
-  taskCustomField6?: GetCustomField;
-  taskCustomField7?: GetCustomField;
-  taskCustomField8?: GetCustomField;
-  taskCustomField9?: GetCustomField;
-  taskCustomField10?: GetCustomField;
+  TaskCustomField1?: GetCustomField;
+  TaskCustomField2?: GetCustomField;
+  TaskCustomField3?: GetCustomField;
+  TaskCustomField4?: GetCustomField;
+  TaskCustomField5?: GetCustomField;
+  TaskCustomField6?: GetCustomField;
+  TaskCustomField7?: GetCustomField;
+  TaskCustomField8?: GetCustomField;
+  TaskCustomField9?: GetCustomField;
+  TaskCustomField10?: GetCustomField;
 
   // Task color display field
-  taskColorAsField?: GetCustomField;
+  TaskColorAsField?: GetCustomField;
 
   // Resource Custom Fields (1-10)
-  resourceCustomField1?: GetCustomField;
-  resourceCustomField2?: GetCustomField;
-  resourceCustomField3?: GetCustomField;
-  resourceCustomField4?: GetCustomField;
-  resourceCustomField5?: GetCustomField;
-  resourceCustomField6?: GetCustomField;
-  resourceCustomField7?: GetCustomField;
-  resourceCustomField8?: GetCustomField;
-  resourceCustomField9?: GetCustomField;
-  resourceCustomField10?: GetCustomField;
+  ResourceCustomField1?: GetCustomField;
+  ResourceCustomField2?: GetCustomField;
+  ResourceCustomField3?: GetCustomField;
+  ResourceCustomField4?: GetCustomField;
+  ResourceCustomField5?: GetCustomField;
+  ResourceCustomField6?: GetCustomField;
+  ResourceCustomField7?: GetCustomField;
+  ResourceCustomField8?: GetCustomField;
+  ResourceCustomField9?: GetCustomField;
+  ResourceCustomField10?: GetCustomField;
 
   // Planning settings
-  planningStart?: string | null;
-  planningHorizon?: number;
-  daysBeforePlanningStart?: number;
+  PlanningStart?: string | null;
+  PlanningHorizon?: number;
+  DaysBeforePlanningStart?: number;
 
   // Display settings
-  jobViewBarText?: DisplayedTextField;
-  resourceViewBarText?: DisplayedTextField;
-  showTooltip?: ShowTooltip;
+  JobViewBarText?: DisplayedTextField;
+  ResourceViewBarText?: DisplayedTextField;
+  ShowTooltip?: ShowTooltip;
 
   // Strategy and scheduling
-  jobStrategy?: Strategy;
-  barColorInNonProdTime?: ColorOfBarInNonProdTime;
-  scheduleEngineRunDirectly?: boolean;
+  JobStrategy?: Strategy;
+  BarColorInNonProdTime?: ColorOfBarInNonProdTime;
+  ScheduleEngineRunDirectly?: boolean;
 
   // Locale
-  locale?: string | null;
+  Locale?: string | null;
 
   // Job status settings
-  jobStatusReadyTasks?: number[];
+  JobStatusReadyTasks?: number[];
 
   // Setup/Teardown timing
-  setupTimeStarts?: SetupTimeStarts;
-  teardownTimeStarts?: TeardownTimeStarts;
+  SetupTimeStarts?: SetupTimeStarts;
+  TeardownTimeStarts?: TeardownTimeStarts;
 
   // Workflow settings
-  approvalWorkflow?: ApprovalWorkflow;
-  globalApplyCapacityConstraints?: boolean;
+  ApprovalWorkflow?: ApprovalWorkflow;
+  GlobalApplyCapacityConstraints?: boolean;
 
   // Tracking settings
-  executeTracking?: ExecuteTracking;
-  shopfloorExecuteTrackingMode?: ShopfloorExecuteTrackingMode;
+  ExecuteTracking?: ExecuteTracking;
+  ShopfloorExecuteTrackingMode?: ShopfloorExecuteTrackingMode;
 
   // Release date calculation
-  calculateReleasedateOnCreation?: boolean;
-  releasedateCalculationBuffer?: number;
+  CalculateReleasedateOnCreation?: boolean;
+  ReleasedateCalculationBuffer?: number;
 
   // Resource settings
-  useResourceCategories?: boolean;
+  UseResourceCategories?: boolean;
 
   // Filtering
-  useWildcardsInFilterEntries?: boolean;
+  UseWildcardsInFilterEntries?: boolean;
 
   // Due date settings
-  autoDueDateBuffer?: number;
+  AutoDueDateBuffer?: number;
 
   // Calendar exceptions
-  calendarExceptionCategories?: GetCalendarExceptionCategory[];
+  CalendarExceptionCategories?: GetCalendarExceptionCategory[];
 
   // Job sequencing
-  jobSequenceCriteria?: GetJobSequenceCriteria[];
+  JobSequenceCriteria?: GetJobSequenceCriteria[];
 }
 
 export interface PatchSettings {
   // Job Custom Fields (1-10) - nullable
-  jobCustomField1?: PatchCustomField | null;
-  jobCustomField2?: PatchCustomField | null;
-  jobCustomField3?: PatchCustomField | null;
-  jobCustomField4?: PatchCustomField | null;
-  jobCustomField5?: PatchCustomField | null;
-  jobCustomField6?: PatchCustomField | null;
-  jobCustomField7?: PatchCustomField | null;
-  jobCustomField8?: PatchCustomField | null;
-  jobCustomField9?: PatchCustomField | null;
-  jobCustomField10?: PatchCustomField | null;
+  JobCustomField1?: PatchCustomField | null;
+  JobCustomField2?: PatchCustomField | null;
+  JobCustomField3?: PatchCustomField | null;
+  JobCustomField4?: PatchCustomField | null;
+  JobCustomField5?: PatchCustomField | null;
+  JobCustomField6?: PatchCustomField | null;
+  JobCustomField7?: PatchCustomField | null;
+  JobCustomField8?: PatchCustomField | null;
+  JobCustomField9?: PatchCustomField | null;
+  JobCustomField10?: PatchCustomField | null;
 
   // Task Custom Fields (1-10) - nullable
-  taskCustomField1?: PatchCustomField | null;
-  taskCustomField2?: PatchCustomField | null;
-  taskCustomField3?: PatchCustomField | null;
-  taskCustomField4?: PatchCustomField | null;
-  taskCustomField5?: PatchCustomField | null;
-  taskCustomField6?: PatchCustomField | null;
-  taskCustomField7?: PatchCustomField | null;
-  taskCustomField8?: PatchCustomField | null;
-  taskCustomField9?: PatchCustomField | null;
-  taskCustomField10?: PatchCustomField | null;
+  TaskCustomField1?: PatchCustomField | null;
+  TaskCustomField2?: PatchCustomField | null;
+  TaskCustomField3?: PatchCustomField | null;
+  TaskCustomField4?: PatchCustomField | null;
+  TaskCustomField5?: PatchCustomField | null;
+  TaskCustomField6?: PatchCustomField | null;
+  TaskCustomField7?: PatchCustomField | null;
+  TaskCustomField8?: PatchCustomField | null;
+  TaskCustomField9?: PatchCustomField | null;
+  TaskCustomField10?: PatchCustomField | null;
 
   // Task color display field - nullable
-  taskColorAsField?: PatchCustomField | null;
+  TaskColorAsField?: PatchCustomField | null;
 
   // Resource Custom Fields (1-10) - nullable
-  resourceCustomField1?: PatchCustomField | null;
-  resourceCustomField2?: PatchCustomField | null;
-  resourceCustomField3?: PatchCustomField | null;
-  resourceCustomField4?: PatchCustomField | null;
-  resourceCustomField5?: PatchCustomField | null;
-  resourceCustomField6?: PatchCustomField | null;
-  resourceCustomField7?: PatchCustomField | null;
-  resourceCustomField8?: PatchCustomField | null;
-  resourceCustomField9?: PatchCustomField | null;
-  resourceCustomField10?: PatchCustomField | null;
+  ResourceCustomField1?: PatchCustomField | null;
+  ResourceCustomField2?: PatchCustomField | null;
+  ResourceCustomField3?: PatchCustomField | null;
+  ResourceCustomField4?: PatchCustomField | null;
+  ResourceCustomField5?: PatchCustomField | null;
+  ResourceCustomField6?: PatchCustomField | null;
+  ResourceCustomField7?: PatchCustomField | null;
+  ResourceCustomField8?: PatchCustomField | null;
+  ResourceCustomField9?: PatchCustomField | null;
+  ResourceCustomField10?: PatchCustomField | null;
 
   // Planning settings - nullable
-  planningStart?: string | null;
-  planningHorizon?: number | null;
-  daysBeforePlanningStart?: number | null;
+  PlanningStart?: string | null;
+  PlanningHorizon?: number | null;
+  DaysBeforePlanningStart?: number | null;
 
   // Display settings - nullable
-  jobViewBarText?: DisplayedTextField | null;
-  resourceViewBarText?: DisplayedTextField | null;
-  showTooltip?: ShowTooltip | null;
+  JobViewBarText?: DisplayedTextField | null;
+  ResourceViewBarText?: DisplayedTextField | null;
+  ShowTooltip?: ShowTooltip | null;
 
   // Strategy and scheduling - nullable
-  jobStrategy?: Strategy | null;
-  barColorInNonProdTime?: ColorOfBarInNonProdTime | null;
-  scheduleEngineRunDirectly?: boolean | null;
+  JobStrategy?: Strategy | null;
+  BarColorInNonProdTime?: ColorOfBarInNonProdTime | null;
+  ScheduleEngineRunDirectly?: boolean | null;
 
   // Locale - nullable
-  locale?: string | null;
+  Locale?: string | null;
 
   // Job status settings - nullable
-  jobStatusReadyTasks?: number[] | null;
+  JobStatusReadyTasks?: number[] | null;
 
   // Setup/Teardown timing - nullable
-  setupTimeStarts?: SetupTimeStarts | null;
-  teardownTimeStarts?: TeardownTimeStarts | null;
+  SetupTimeStarts?: SetupTimeStarts | null;
+  TeardownTimeStarts?: TeardownTimeStarts | null;
 
   // Workflow settings - nullable
-  approvalWorkflow?: ApprovalWorkflow | null;
-  globalApplyCapacityConstraints?: boolean | null;
+  ApprovalWorkflow?: ApprovalWorkflow | null;
+  GlobalApplyCapacityConstraints?: boolean | null;
 
   // Tracking settings - nullable
-  executeTracking?: ExecuteTracking | null;
-  shopfloorExecuteTrackingMode?: ShopfloorExecuteTrackingMode | null;
+  ExecuteTracking?: ExecuteTracking | null;
+  ShopfloorExecuteTrackingMode?: ShopfloorExecuteTrackingMode | null;
 
   // Release date calculation - nullable
-  calculateReleasedateOnCreation?: boolean | null;
-  releasedateCalculationBuffer?: number | null;
+  CalculateReleasedateOnCreation?: boolean | null;
+  ReleasedateCalculationBuffer?: number | null;
 
   // Resource settings - nullable
-  useResourceCategories?: boolean | null;
+  UseResourceCategories?: boolean | null;
 
   // Filtering - nullable
-  useWildcardsInFilterEntries?: boolean | null;
+  UseWildcardsInFilterEntries?: boolean | null;
 
   // Due date settings - nullable
-  autoDueDateBuffer?: number | null;
+  AutoDueDateBuffer?: number | null;
 
   // Calendar exceptions - nullable
-  calendarExceptionCategories?: GetCalendarExceptionCategory[] | null;
+  CalendarExceptionCategories?: GetCalendarExceptionCategory[] | null;
 
   // Job sequencing - nullable
-  jobSequenceCriteria?: GetJobSequenceCriteria[] | null;
+  JobSequenceCriteria?: GetJobSequenceCriteria[] | null;
 }

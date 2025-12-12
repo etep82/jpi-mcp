@@ -1,9 +1,10 @@
 /**
  * JPI API Template Schemas
  * Types for Job Templates and Template Tasks/Component References
+ * Field names use PascalCase to match JPI API exactly
  */
 
-import { DisplayedTextField } from './enums.js';
+import { DisplayedTextField, TemplateStrategy } from './enums.js';
 import {
   Identifier,
   GetHyperLink,
@@ -11,7 +12,8 @@ import {
   PatchHyperLink,
   GetResourceGroupConstraint,
   PostResourceGroupConstraint,
-  PatchResourceGroupConstraint
+  PatchResourceGroupConstraint,
+  GetTaskConnection
 } from './schemas.js';
 
 // ============================================
@@ -19,97 +21,97 @@ import {
 // ============================================
 
 export interface GetJobTemplateTask {
-  guid?: string | null;
-  taskNo?: string | null;
-  name?: string | null;
-  productionTimePerUnit?: number;
-  setupTime?: number;
-  teardownTime?: number;
-  transferTime?: number;
-  resourceGroupConstraints?: GetResourceGroupConstraint[];
-  predecessors?: Identifier[];
-  taskConnections?: Identifier[];
-  taskNote?: string | null;
-  displayedTextFieldJobView?: DisplayedTextField;
-  displayedTextFieldResView?: DisplayedTextField;
-  colorAs?: string | null;
-  quantity?: number;
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
-  sendAheadQuantity?: number;
-  hyperLinks?: GetHyperLink[];
-  heads?: number;
+  Guid?: string | null;
+  TaskNo?: string | null;
+  Name?: string | null;
+  ProductionTimePerUnit?: number;
+  SetupTime?: number;
+  TeardownTime?: number;
+  TransferTime?: number;
+  ResourceGroupConstraints?: GetResourceGroupConstraint[];
+  Predecessors?: Identifier[];
+  TaskConnections?: GetTaskConnection[];
+  TaskNote?: string | null;
+  DisplayedTextFieldJobView?: DisplayedTextField;
+  DisplayedTextFieldResView?: DisplayedTextField;
+  ColorAs?: string | null;
+  Quantity?: number;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
+  SendAheadQuantity?: number;
+  HyperLinks?: GetHyperLink[];
+  Heads?: number;
 }
 
 export interface PostTemplateTask {
   // Required fields
-  taskNo: string;
-  resourceGroupConstraints: PostResourceGroupConstraint[];
+  TaskNo: string;
+  ResourceGroupConstraints: PostResourceGroupConstraint[];
 
   // Optional fields
-  name?: string | null;
-  productionTimePerUnit?: number;
-  setupTime?: number;
-  teardownTime?: number;
-  transferTime?: number;
-  predecessorTaskNos?: string[] | null;
-  taskConnectionTaskNos?: string[] | null;
-  taskNote?: string | null;
-  displayedTextFieldJobView?: DisplayedTextField;
-  displayedTextFieldResView?: DisplayedTextField;
-  colorAs?: string | null;
-  quantity?: number;
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
-  hyperlinks?: PostHyperLink[];
-  sendAheadQuantity?: number;
-  heads?: number;
+  Name?: string | null;
+  ProductionTimePerUnit?: number;
+  SetupTime?: number;
+  TeardownTime?: number;
+  TransferTime?: number;
+  PredecessorTaskNos?: string[] | null;
+  TaskConnectionTaskNos?: string[] | null;
+  TaskNote?: string | null;
+  DisplayedTextFieldJobView?: DisplayedTextField;
+  DisplayedTextFieldResView?: DisplayedTextField;
+  ColorAs?: string | null;
+  Quantity?: number;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
+  HyperLinks?: PostHyperLink[];
+  SendAheadQuantity?: number;
+  Heads?: number;
 }
 
 export interface PatchTemplateTask {
-  taskNo?: string | null;
-  name?: string | null;
-  productionTimePerUnit?: number | null;
-  setupTime?: number | null;
-  teardownTime?: number | null;
-  transferTime?: number | null;
-  resourceGroupConstraints?: PatchResourceGroupConstraint[] | null;
-  predecessorTaskNos?: string[] | null;
-  taskConnectionTaskNos?: string[] | null;
-  taskNote?: string | null;
-  displayedTextFieldJobView?: DisplayedTextField | null;
-  displayedTextFieldResView?: DisplayedTextField | null;
-  colorAs?: string | null;
-  quantity?: number | null;
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
-  hyperlinks?: PatchHyperLink[] | null;
-  sendAheadQuantity?: number | null;
-  heads?: number;
+  TaskNo?: string | null;
+  Name?: string | null;
+  ProductionTimePerUnit?: number | null;
+  SetupTime?: number | null;
+  TeardownTime?: number | null;
+  TransferTime?: number | null;
+  ResourceGroupConstraints?: PatchResourceGroupConstraint[] | null;
+  PredecessorTaskNos?: string[] | null;
+  TaskConnectionTaskNos?: string[] | null;
+  TaskNote?: string | null;
+  DisplayedTextFieldJobView?: DisplayedTextField | null;
+  DisplayedTextFieldResView?: DisplayedTextField | null;
+  ColorAs?: string | null;
+  Quantity?: number | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
+  HyperLinks?: PatchHyperLink[] | null;
+  SendAheadQuantity?: number | null;
+  Heads?: number;
 }
 
 // ============================================
@@ -117,18 +119,26 @@ export interface PatchTemplateTask {
 // ============================================
 
 export interface GetTemplateComponentReference {
-  guid?: string | null;
-  component?: Identifier | null;
-  quantity?: number;
+  Guid?: string | null;
+  TaskNo?: string | null;
+  Component?: Identifier;
+  Quantity?: number;
+  Predecessors?: string[];
+  CreatedTasks?: Identifier[];
 }
 
 export interface PostTemplateComponentReference {
-  componentGuid: string;
-  quantity?: number;
+  TaskNo: string;
+  Component: string;
+  Quantity?: number;
+  Predecessors?: string[];
 }
 
 export interface PatchTemplateCompRef {
-  quantity?: number | null;
+  TaskNo?: string | null;
+  Component?: string | null;
+  Quantity?: number | null;
+  Predecessors?: string[] | null;
 }
 
 // ============================================
@@ -136,19 +146,74 @@ export interface PatchTemplateCompRef {
 // ============================================
 
 export interface GetJobTemplate {
-  guid?: string | null;
-  name?: string | null;
-  tasks?: GetJobTemplateTask[];
-  templateComponentReferences?: GetTemplateComponentReference[];
-  hyperLinks?: GetHyperLink[];
+  Guid?: string | null;
+  Name?: string | null;
+  Tasks?: GetJobTemplateTask[];
+  TemplateComponentReferences?: GetTemplateComponentReference[];
+  HyperLinks?: GetHyperLink[];
+
+  // Strategy and scheduling
+  Strategy?: TemplateStrategy;
+  DueDateBuffer?: number;
+  AdditionalText?: string | null;
+
+  // Custom Fields
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 }
 
 export interface PostJobTemplate {
-  name: string;
-  hyperlinks?: PostHyperLink[];
+  Name: string;
+  HyperLinks?: PostHyperLink[];
+
+  // Tasks and Component References
+  Tasks?: PostTemplateTask[];
+  ComponentReferences?: PostTemplateComponentReference[];
+
+  // Strategy and scheduling
+  Strategy?: TemplateStrategy;
+  DueDateBuffer?: number;
+  AdditionalText?: string | null;
+
+  // Custom Fields
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 }
 
 export interface PatchJobTemplate {
-  name?: string | null;
-  hyperLinks?: PatchHyperLink[] | null;
+  Name?: string | null;
+  HyperLinks?: PatchHyperLink[] | null;
+
+  // Strategy and scheduling
+  Strategy?: TemplateStrategy | null;
+  DueDateBuffer?: number | null;
+  AdditionalText?: string | null;
+
+  // Custom Fields
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 }

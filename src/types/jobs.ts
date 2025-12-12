@@ -1,14 +1,14 @@
 /**
  * JPI API Job Schemas
  * Types for Jobs, Tasks, and Job Component References
+ * Field names use PascalCase to match JPI API exactly
  */
 
 import {
   OrderStatus,
   Strategy,
   TaskStatus,
-  ExecuteStatus,
-  ConstraintType
+  DisplayedTextField
 } from './enums.js';
 import {
   Identifier,
@@ -16,7 +16,9 @@ import {
   PostHyperLink,
   PatchHyperLink,
   GetResourceGroupConstraint,
-  PostResourceGroupConstraint
+  PostResourceGroupConstraint,
+  PatchResourceGroupConstraint,
+  GetTaskConnection
 } from './schemas.js';
 
 // ============================================
@@ -25,225 +27,298 @@ import {
 
 export interface GetTask {
   // Core Identification
-  guid?: string | null;
-  taskNo?: number;
-  name?: string | null;
-  taskNote?: string | null;
-  color?: string | null;
+  Guid?: string | null;
+  TaskNo?: string | null;
+  Name?: string | null;
+  TaskNote?: string | null;
+  ColorAs?: string | null;
+  Color?: string | null;
 
   // Time Fields (all in SECONDS)
-  processTime?: number;
-  setupTime?: number;
-  teardownTime?: number;
-  idleTime?: number;
-  preIdleTime?: number;
-  postIdleTime?: number;
+  ProductionTimePerUnit?: number;
+  SetupTime?: number;
+  TeardownTime?: number;
+  TransferTime?: number;
+  ProcessTime?: number;
+  RemainingProcessTime?: number;
+  IdleTime?: number;
+  PreIdleTime?: number;
+  PostIdleTime?: number;
 
   // Scheduling Dates
-  processingStart?: string | null;
-  processingEnd?: string | null;
-  plannedStart?: string | null;
-  plannedEnd?: string | null;
+  Start?: string | null;
+  End?: string | null;
+  ProductionTimeStart?: string | null;
+  ProductionTimeEnd?: string | null;
+  SetupTimeStart?: string | null;
+  SetupTimeEnd?: string | null;
+  TeardownTimeStart?: string | null;
+  TeardownTimeEnd?: string | null;
+  TransferTimeStart?: string | null;
+  TransferTimeEnd?: string | null;
+  ProcessingStart?: string | null;
+  ProcessingEnd?: string | null;
+  PlannedStart?: string | null;
+  PlannedEnd?: string | null;
 
   // Resource Assignment
-  resourceGroupConstraints?: Identifier[];
-  resource?: Identifier | null;
-  resourceName?: string | null;
+  ResourceGroupConstraints?: GetResourceGroupConstraint[];
+  AssignedResources?: Identifier[];
+  Resource?: Identifier;
+  ResourceName?: string | null;
 
   // Planning Constraints
-  constraintDate?: string | null;
-  constraintType?: ConstraintType;
-  taskStatus?: TaskStatus;
-  isCritical?: boolean;
+  StartNotEarlierThan?: string | null;
+  EndNotLaterThan?: string | null;
+  ConstraintDate?: string | null;
+  ConstraintType?: string | null;
+  TaskStatus?: TaskStatus;
+  IsCritical?: boolean;
 
-  // Baseline Fields
-  baselineStartDate?: string | null;
-  baselineEndDate?: string | null;
-  baselineProcessingStart?: string | null;
-  baselineProcessingEnd?: string | null;
-  baselineSetupTime?: number;
-  baselineTeardownTime?: number;
-  baselineProcessTime?: number;
-  baselineIdleTime?: number;
+  // Display Settings
+  DisplayedTextFieldJobView?: DisplayedTextField;
+  DisplayedTextFieldResView?: DisplayedTextField;
 
-  // Operator/Shopfloor Feedback
-  operatorSetupTimeStart?: string | null;
-  operatorSetupTimeEnd?: string | null;
-  operatorTeardownTimeStart?: string | null;
-  operatorTeardownTimeEnd?: string | null;
-  operatorProcessingStart?: string | null;
-  operatorProcessingEnd?: string | null;
-  operatorSetupTime?: number | null;
-  operatorTeardownTime?: number | null;
-  operatorProcessTime?: number | null;
-  operatorQuantity?: number | null;
-  operatorQuantityGood?: number | null;
-  operatorQuantityRejected?: number | null;
-
-  // Progress Tracking
-  processedQuantity?: number;
-  taskProgress?: number;
-  taskExecuteStatus?: ExecuteStatus;
-
-  // Buffer Fields
-  bufferPenetration?: number;
-  feedingBufferLevel?: number;
-  feedingBuffer?: number;
-  feedingBufferPenetration?: number;
+  // Quantity Fields
+  Quantity?: number;
+  SendAheadQuantity?: number;
+  Heads?: number;
+  ProcessedQuantity?: number;
 
   // Relationships
-  predecessors?: Identifier[];
-  successors?: Identifier[];
-  componentTask?: Identifier | null;
+  Predecessors?: Identifier[];
+  Successors?: Identifier[];
+  TaskConnections?: GetTaskConnection[];
+  ComponentTask?: Identifier;
+
+  // Baseline Fields (8)
+  BaselineStartDate?: string | null;
+  BaselineEndDate?: string | null;
+  BaselineProcessingStart?: string | null;
+  BaselineProcessingEnd?: string | null;
+  BaselineSetupTime?: number;
+  BaselineTeardownTime?: number;
+  BaselineProcessTime?: number;
+  BaselineIdleTime?: number;
+
+  // Operator/Shopfloor Feedback (12)
+  OperatorSetupTimeStart?: string | null;
+  OperatorSetupTimeEnd?: string | null;
+  OperatorTeardownTimeStart?: string | null;
+  OperatorTeardownTimeEnd?: string | null;
+  OperatorProcessingStart?: string | null;
+  OperatorProcessingEnd?: string | null;
+  OperatorSetupTime?: number;
+  OperatorTeardownTime?: number;
+  OperatorProcessTime?: number;
+  OperatorQuantity?: number;
+  OperatorQuantityGood?: number;
+  OperatorQuantityRejected?: number;
+
+  // Progress & Buffer
+  TaskProgress?: number;
+  TaskExecuteStatus?: string | null;
+  BufferPenetration?: number;
+  FeedingBufferLevel?: number;
+  FeedingBuffer?: number;
+  FeedingBufferPenetration?: number;
 
   // Custom Fields
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
-
-  // Metadata
-  patchWarnings?: string | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 
   // Links
-  hyperLinks?: GetHyperLink[];
+  HyperLinks?: GetHyperLink[];
+
+  // Metadata
+  PatchWarnings?: string | null;
+
+  // Display/UI Fields (Extended)
+  Progress?: number;
+  OverloadIndicator?: boolean;
+  DisplayedTextJobView?: string | null;
+  DisplayedTextResView?: string | null;
+  MarkedAsStatus?: string | null;
+
+  // Operator/Shopfloor Extended
+  OperatorProcessingResources?: Identifier[];
+  OperatorProcessingResourceGroups?: Identifier[];
+  OperatorNote?: string | null;
+  OperatorFeedback?: boolean;
+  ShopfloorReferenceDate?: string | null;
+
+  // Tracking
+  FromNow?: number;
+  LastUpdatedBy?: string | null;
+  TaskOnHold?: string | null;
+  WaitingTime?: number;
+
+  // Quantity Extended
+  TotalDoneQuantity?: number;
+  ShopfloorTotalDoneQuantity?: number;
+
+  // Baseline Extended
+  BaselineQuantity?: number;
+  BaselineProductionTimePerUnit?: number;
+  BaselineTransferTime?: number;
+  BaselineTotalTime?: number;
+  BaselineAssignedResources?: Identifier[];
+  BaselineResourceGroupConstraints?: GetResourceGroupConstraint[];
+  BaselineCycleTime?: number;
+  BaselineThroughputTime?: number;
+
+  // Relationships Extended
+  ComponentPredecessors?: Identifier[];
+
+  // Other Extended
+  CreatedFromComponentTemplate?: string | null;
+  ProcessingRemainingTime?: number;
 }
 
 export interface PostTask {
   // Required Fields
-  taskNo: number;
-  resourceGroupConstraints: string[];
+  TaskNo: string;
+  ResourceGroupConstraints: PostResourceGroupConstraint[];
 
   // Optional Fields
-  name?: string | null;
-  taskNote?: string | null;
-  color?: string | null;
+  Name?: string | null;
+  TaskNote?: string | null;
+  ColorAs?: string | null;
 
   // Time Fields (all in SECONDS)
-  processTime?: number;
-  setupTime?: number;
-  teardownTime?: number;
+  ProductionTimePerUnit?: number;
+  SetupTime?: number;
+  TeardownTime?: number;
+  TransferTime?: number;
 
-  // Resource Assignment
-  resource?: string | null;
+  // Planning Constraints
+  StartNotEarlierThan?: string | null;
+  EndNotLaterThan?: string | null;
 
-  // Constraints
-  constraintDate?: string | null;
-  constraintType?: ConstraintType;
+  // Quantity Fields
+  Quantity?: number;
+  SendAheadQuantity?: number;
+  Heads?: number;
 
-  // Relationships
-  predecessors?: string[] | null;
-  successors?: string[] | null;
-  componentTask?: string | null;
+  // Relationships (Task numbers as strings)
+  PredecessorTaskNos?: string[] | null;
+  TaskConnectionTaskNos?: string[] | null;
 
   // Custom Fields
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 
   // Links
-  hyperLinks?: PostHyperLink[];
+  HyperLinks?: PostHyperLink[];
 }
 
 export interface PatchTask {
   // Core Fields
-  guid?: string | null;
-  taskNo?: number | null;
-  name?: string | null;
-  taskNote?: string | null;
-  color?: string | null;
+  Guid?: string | null;
+  TaskNo?: string | null;
+  Name?: string | null;
+  TaskNote?: string | null;
+  ColorAs?: string | null;
 
   // Time Fields (all in SECONDS)
-  processTime?: number | null;
-  setupTime?: number | null;
-  teardownTime?: number | null;
+  ProductionTimePerUnit?: number | null;
+  SetupTime?: number | null;
+  TeardownTime?: number | null;
+  TransferTime?: number | null;
 
   // Resource Assignment
-  resourceGroupConstraints?: string[] | null;
-  resource?: string | null;
+  ResourceGroupConstraints?: PatchResourceGroupConstraint[] | null;
 
-  // Constraints
-  constraintDate?: string | null;
-  constraintType?: ConstraintType | null;
+  // Planning Constraints
+  StartNotEarlierThan?: string | null;
+  EndNotLaterThan?: string | null;
+  TaskStatus?: TaskStatus | null;
 
-  // Operator/Shopfloor Feedback
-  operatorSetupTimeStart?: string | null;
-  operatorSetupTimeEnd?: string | null;
-  operatorTeardownTimeStart?: string | null;
-  operatorTeardownTimeEnd?: string | null;
-  operatorProcessingStart?: string | null;
-  operatorProcessingEnd?: string | null;
-  operatorSetupTime?: number | null;
-  operatorTeardownTime?: number | null;
-  operatorProcessTime?: number | null;
-  operatorQuantity?: number | null;
-  operatorQuantityGood?: number | null;
-  operatorQuantityRejected?: number | null;
-
-  // Progress Tracking
-  taskExecuteStatus?: ExecuteStatus | null;
+  // Quantity Fields
+  Quantity?: number | null;
+  SendAheadQuantity?: number | null;
+  Heads?: number | null;
 
   // Relationships
-  predecessors?: string[] | null;
-  successors?: string[] | null;
-  componentTask?: string | null;
+  PredecessorTaskNos?: string[] | null;
+  TaskConnectionTaskNos?: string[] | null;
 
   // Custom Fields
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 
   // Links
-  hyperLinks?: PatchHyperLink[] | null;
+  HyperLinks?: PatchHyperLink[] | null;
 }
 
 export interface PostTaskToDiffJobs {
-  jobGuid: string;
-  taskNo: string;
-  resourceGroupConstraints: PostResourceGroupConstraint[];
-  name?: string | null;
-  productionTimePerUnit?: number;
-  setupTime?: number;
-  teardownTime?: number;
-  transferTime?: number;
-  predecessorTaskNos?: string[] | null;
-  taskConnectionTaskNos?: string[] | null;
-  taskNote?: string | null;
-  colorAs?: string | null;
-  quantity?: number;
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
-  hyperlinks?: PostHyperLink[];
-  sendAheadQuantity?: number;
-  heads?: number;
+  // Required Fields
+  JobGuid: string;
+  TaskNo: string;
+  ResourceGroupConstraints: PostResourceGroupConstraint[];
+
+  // Optional Fields
+  Name?: string | null;
+  TaskNote?: string | null;
+  ColorAs?: string | null;
+
+  // Time Fields (all in SECONDS)
+  ProductionTimePerUnit?: number;
+  SetupTime?: number;
+  TeardownTime?: number;
+  TransferTime?: number;
+
+  // Planning Constraints
+  StartNotEarlierThan?: string | null;
+  EndNotLaterThan?: string | null;
+
+  // Quantity Fields
+  Quantity?: number;
+  SendAheadQuantity?: number;
+  Heads?: number;
+
+  // Relationships
+  PredecessorTaskNos?: string[] | null;
+  TaskConnectionTaskNos?: string[] | null;
+
+  // Custom Fields
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
+
+  // Links
+  HyperLinks?: PostHyperLink[];
 }
 
 // ============================================
@@ -251,26 +326,27 @@ export interface PostTaskToDiffJobs {
 // ============================================
 
 export interface GetJobComponentReference {
-  guid?: string | null;
-  component?: Identifier | null;
-  taskNo?: number;
-  createdTasks?: Identifier[];
-  predecessors?: Identifier[];
-  quantity?: number;
-  patchWarnings?: string | null;
+  Guid?: string | null;
+  Component?: Identifier;
+  TaskNo?: number;
+  CreatedTasks?: Identifier[];
+  Predecessors?: Identifier[];
+  Quantity?: number;
+  PatchWarnings?: string | null;
 }
 
 export interface PostJobComponentReference {
-  component: string;
-  taskNo?: number;
-  predecessors?: string[] | null;
-  quantity?: number;
+  ComponentGuid: string;
+  TaskNo?: string | null;
+  PredecessorTaskNos?: string[] | null;
+  Quantity?: number;
 }
 
 export interface PatchJobComponentReference {
-  taskNo?: number | null;
-  predecessors?: string[] | null;
-  quantity?: number | null;
+  Guid?: string | null;
+  TaskNo?: string | null;
+  PredecessorTaskNos?: string[] | null;
+  Quantity?: number | null;
 }
 
 // ============================================
@@ -279,153 +355,169 @@ export interface PatchJobComponentReference {
 
 export interface GetJob {
   // Core Identification
-  guid?: string | null;
-  jobNo?: string | null;
-  name?: string | null;
+  Guid?: string | null;
+  JobNo?: string | null;
+  Name?: string | null;
 
   // Status & Strategy
-  orderStatus?: OrderStatus;
-  executeStatus?: ExecuteStatus;
-  strategy?: Strategy;
-  appliedStrategy?: Strategy;
-  sequenceNumber?: number;
+  OrderStatus?: OrderStatus;
+  Strategy?: Strategy;
+  ExecuteStatus?: string | null;
+  AppliedStrategy?: Strategy;
+  SequenceNumber?: number;
+  Automatic?: boolean;
 
   // Dates & Planning
-  dueDate?: string | null;
-  releaseDate?: string | null;
-  plannedStart?: string | null;
-  plannedEnd?: string | null;
-  processingStart?: string | null;
-  processingEnd?: string | null;
-  isDueDateExceeded?: boolean;
-  automatic?: boolean;
-  dueDateBuffer?: number;
+  DueDate?: string | null;
+  ReleaseDate?: string | null;
+  PlannedStart?: string | null;
+  PlannedEnd?: string | null;
+  ProcessingStart?: string | null;
+  ProcessingEnd?: string | null;
+  IsDueDateExceeded?: boolean;
+  DueDateBuffer?: number;
+  FloatTime?: number;
+  CriticalPath?: boolean;
 
   // Business Fields
-  sales?: number;
-  quantity?: number;
-  jobNote?: string | null;
-
-  // Baseline Fields
-  baselineDueDate?: string | null;
-  baselineStartDate?: string | null;
-  baselineEndDate?: string | null;
-  baselineProcessingStart?: string | null;
-  baselineProcessingEnd?: string | null;
-  baselineSetupTime?: number;
-  baselineTeardownTime?: number;
-  baselineProcessTime?: number;
-  baselineIdleTime?: number;
-  baselineTotalLeadTime?: number;
-
-  // Buffer Management Fields
-  bufferLevel?: number;
-  buffer?: number;
-  maxRemainingCycleTime?: number;
-  bufferPenetration?: number;
-  bufferPenetrationFromPlanning?: number;
-  feedingBufferLevel?: number;
-  feedingBuffer?: number;
-  milestoneBufferLevel?: number;
-  milestoneBuffer?: number;
-
-  // Progress Tracking
-  jobProgress?: number;
+  Customer?: string | null;
+  AdditionalJobText?: string | null;
+  JobNote?: string | null;
+  ColorAs?: string | null;
+  Quantity?: number;
+  Sales?: number;
+  CreationDate?: string | null;
 
   // Relationships
-  tasks?: GetTask[];
-  predecessors?: Identifier[];
-  successors?: Identifier[];
-  componentReferences?: GetJobComponentReference[];
-  template?: Identifier | null;
-  createdFromTemplate?: boolean;
+  Tasks?: GetTask[];
+  ComponentReferences?: GetJobComponentReference[];
+  Predecessors?: Identifier[];
+  Successors?: Identifier[];
+  Template?: Identifier;
+  CreatedFromTemplate?: string | null;
 
-  // Metadata
-  creationDate?: string | null;
-  patchWarnings?: string | null;
+  // Baseline Fields (10)
+  BaselineDueDate?: string | null;
+  BaselineStartDate?: string | null;
+  BaselineEndDate?: string | null;
+  BaselineProcessingStart?: string | null;
+  BaselineProcessingEnd?: string | null;
+  BaselineSetupTime?: number;
+  BaselineTeardownTime?: number;
+  BaselineProcessTime?: number;
+  BaselineIdleTime?: number;
+  BaselineTotalLeadTime?: number;
+
+  // Buffer Management (9)
+  BufferLevel?: number;
+  Buffer?: number;
+  MaxRemainingCycleTime?: number;
+  BufferPenetration?: number;
+  BufferPenetrationFromPlanning?: number;
+  FeedingBufferLevel?: number;
+  FeedingBuffer?: number;
+  MilestoneBufferLevel?: number;
+  MilestoneBuffer?: number;
+
+  // Progress
+  JobProgress?: number;
 
   // Custom Fields
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 
   // Links
-  hyperLinks?: GetHyperLink[];
+  HyperLinks?: GetHyperLink[];
+
+  // Metadata
+  PatchWarnings?: string | null;
+
+  // Baseline Extended
+  BaselineSeqNo?: number;
+  BaselineWaitTime?: string | null;
+  BaselineCycleTime?: string | null;
+  BaselineThroughputTime?: string | null;
+  BaselineBufferLevel?: number;
+  BaselineBuffer?: string | null;
+  BaselineMaxRemainingCycleTime?: string | null;
+
+  // Buffer Residual Fields
+  BufferLevelResidual?: number;
+  BufferResidual?: number;
+  MaxRemainingCycleTimeResidual?: number;
 }
 
 export interface PostJob {
   // Required Fields
-  name: string;
-  tasks: PostTask[];
+  Name: string;
+  Tasks: PostTask[];
 
   // Optional Fields
-  jobNo?: string | null;
-  strategy?: Strategy;
-  quantity?: number;
-  sales?: number;
-  dueDate?: string | null;
-  releaseDate?: string | null;
-  automatic?: boolean | null;
-  jobNote?: string | null;
+  JobNo?: string | null;
+  Strategy?: Strategy;
+  OrderStatus?: OrderStatus;
+  DueDate?: string | null;
+  ReleaseDate?: string | null;
+  Customer?: string | null;
+  AdditionalJobText?: string | null;
+  JobNote?: string | null;
+  ColorAs?: string | null;
+  Quantity?: number;
 
   // Relationships
-  predecessors?: string[] | null;
-  successors?: string[] | null;
-  componentReferences?: PostJobComponentReference[];
+  JobComponentReferences?: PostJobComponentReference[];
 
   // Custom Fields
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 
   // Links
-  hyperLinks?: PostHyperLink[];
+  HyperLinks?: PostHyperLink[];
 }
 
 export interface PatchJob {
   // Core Fields
-  name?: string | null;
-  jobNo?: string | null;
-  strategy?: Strategy | null;
-  quantity?: number | null;
-  sales?: number | null;
-  dueDate?: string | null;
-  releaseDate?: string | null;
-  automatic?: boolean | null;
-  jobNote?: string | null;
-  disabled?: boolean | null;
-
-  // Relationships
-  predecessors?: string[] | null;
-  successors?: string[] | null;
-  componentReferences?: PatchJobComponentReference[] | null;
+  Guid?: string | null;
+  Name?: string | null;
+  JobNo?: string | null;
+  Strategy?: Strategy | null;
+  OrderStatus?: OrderStatus | null;
+  DueDate?: string | null;
+  ReleaseDate?: string | null;
+  Customer?: string | null;
+  AdditionalJobText?: string | null;
+  JobNote?: string | null;
+  ColorAs?: string | null;
+  Quantity?: number | null;
 
   // Custom Fields
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 
   // Links
-  hyperLinks?: PatchHyperLink[] | null;
+  HyperLinks?: PatchHyperLink[] | null;
 }

@@ -1,6 +1,7 @@
 /**
  * JPI API Resource Schemas
  * Types for Resources, Resource Groups, and Resource Categories
+ * Field names use PascalCase to match JPI API exactly
  */
 
 import {
@@ -17,17 +18,17 @@ import {
 // ============================================
 
 export interface GetResourceCategory {
-  guid?: string | null;
-  name?: string | null;
-  resourceGroups?: Identifier[];
+  Guid?: string | null;
+  Name?: string | null;
+  ResourceGroups?: Identifier[];
 }
 
 export interface PostResourceCategory {
-  name: string;
+  Name: string;
 }
 
 export interface PatchResourceCategory {
-  name?: string | null;
+  Name?: string | null;
 }
 
 // ============================================
@@ -35,22 +36,22 @@ export interface PatchResourceCategory {
 // ============================================
 
 export interface GetResourceGroup {
-  guid?: string | null;
-  name?: string | null;
-  resourceCategory?: Identifier | null;
-  resources?: Identifier[];
+  Guid?: string | null;
+  Name?: string | null;
+  ResourceCategory?: Identifier | null;
+  Resources?: Identifier[];
 }
 
 export interface PostResourceGroup {
-  name: string;
-  resourceCategory?: string | null;
-  resources?: string[] | null;
+  Name: string;
+  ResourceCategoryGuid?: string | null;
+  Resources?: string[] | null;
 }
 
 export interface PatchResourceGroup {
-  name?: string | null;
-  resourceCategory?: string | null;
-  resources?: string[] | null;
+  Name?: string | null;
+  ResourceCategoryGuid?: string | null;
+  Resources?: string[] | null;
 }
 
 // ============================================
@@ -58,50 +59,50 @@ export interface PatchResourceGroup {
 // ============================================
 
 export interface GetResource {
-  guid?: string | null;
-  name?: string | null;
-  capacity?: number;
-  finite?: boolean;
-  overloadIndicator?: boolean;
-  disabled?: boolean;
-  resourceGroups?: Identifier[];
+  Guid?: string | null;
+  Name?: string | null;
+  Capacity?: number;
+  Finite?: boolean;
+  OverloadIndicator?: boolean;
+  Disabled?: boolean;
+  ResourceGroups?: Identifier[];
 
   // Custom fields
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
 
   // Calendar configuration
-  resourceCalendarGuid?: string | null;
-  worktimesPerWeekday?: GetWorkTimePerWeekday[];
-  calendarExceptions?: GetCalendarException[];
+  ResourceCalendarGuid?: string | null;
+  WorktimesPerWeekday?: GetWorkTimePerWeekday[];
+  CalendarExceptions?: GetCalendarException[];
 
   // Load data (read-only)
-  loadData?: GetResourceLoadData[];
+  LoadData?: GetResourceLoadData[];
 }
 
 export interface PostResource {
-  name: string;
-  worktimesPerWeekday: PostWorkTimePerWeekday[];
-  capacity?: number;
-  finite?: boolean;
-  resourceGroups?: string[] | null;
-  calendarExceptions?: PostCalendarException[];
+  Name: string;
+  WorktimesPerWeekday: PostWorkTimePerWeekday[];
+  Capacity?: number;
+  Finite?: boolean;
+  ResourceGroupGuid?: string | null;
+  CalendarExceptions?: PostCalendarException[];
 }
 
 export interface PatchResource {
-  name?: string | null;
-  capacity?: number | null;
-  finite?: boolean | null;
-  disabled?: boolean | null;
-  resourceGroups?: string[] | null;
-  worktimesPerWeekday?: PostWorkTimePerWeekday[] | null;
-  calendarExceptions?: PostCalendarException[] | null;
+  Name?: string | null;
+  Capacity?: number | null;
+  Finite?: boolean | null;
+  Disabled?: boolean | null;
+  ResourceGroupGuid?: string | null;
+  WorktimesPerWeekday?: PostWorkTimePerWeekday[] | null;
+  CalendarExceptions?: PostCalendarException[] | null;
 }

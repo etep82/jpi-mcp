@@ -83,7 +83,7 @@ export class JpiClient {
   ): Promise<T> {
     const url = `${this.baseUrl}${path}`;
     const headers: Record<string, string> = {
-      'Authorization': `Bearer ${this.token}`,
+      'X-Api-Key': this.token,
       'Accept': 'application/json'
     };
 

@@ -1,6 +1,7 @@
 /**
  * JPI API Component Schemas
  * Types for Components and Component Tasks
+ * Field names use PascalCase to match JPI API exactly
  */
 
 import { DisplayedTextField } from './enums.js';
@@ -10,7 +11,9 @@ import {
   PostHyperLink,
   PatchHyperLink,
   GetResourceGroupConstraint,
-  PostResourceGroupConstraint
+  PostResourceGroupConstraint,
+  PatchResourceGroupConstraint,
+  GetTaskConnection
 } from './schemas.js';
 
 // ============================================
@@ -18,95 +21,95 @@ import {
 // ============================================
 
 export interface GetComponentTask {
-  guid?: string | null;
-  taskNo?: string | null;
-  name?: string | null;
-  productionTimePerUnit?: number;
-  setupTime?: number;
-  teardownTime?: number;
-  transferTime?: number;
-  resourceGroupConstraints?: GetResourceGroupConstraint[];
-  predecessors?: Identifier[];
-  taskConnections?: Identifier[];
-  taskNote?: string | null;
-  displayedTextFieldJobView?: DisplayedTextField;
-  displayedTextFieldResView?: DisplayedTextField;
-  colorAs?: string | null;
-  quantity?: number;
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
-  sendAheadQuantity?: number;
-  hyperLinks?: GetHyperLink[];
-  heads?: number;
+  Guid?: string | null;
+  TaskNo?: string | null;
+  Name?: string | null;
+  ProductionTimePerUnit?: number;
+  SetupTime?: number;
+  TeardownTime?: number;
+  TransferTime?: number;
+  ResourceGroupConstraints?: GetResourceGroupConstraint[];
+  Predecessors?: Identifier[];
+  TaskConnections?: GetTaskConnection[];
+  TaskNote?: string | null;
+  DisplayedTextFieldJobView?: DisplayedTextField;
+  DisplayedTextFieldResView?: DisplayedTextField;
+  ColorAs?: string | null;
+  Quantity?: number;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
+  SendAheadQuantity?: number;
+  HyperLinks?: GetHyperLink[];
+  Heads?: number;
 }
 
 export interface PostComponentTask {
-  taskNo: string;
-  resourceGroupConstraints: PostResourceGroupConstraint[];
-  name?: string | null;
-  productionTimePerUnit?: number;
-  setupTime?: number;
-  teardownTime?: number;
-  transferTime?: number;
-  predecessorTaskNos?: string[] | null;
-  taskConnectionTaskNos?: string[] | null;
-  taskNote?: string | null;
-  displayedTextFieldJobView?: DisplayedTextField;
-  displayedTextFieldResView?: DisplayedTextField;
-  colorAs?: string | null;
-  quantity?: number;
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
-  hyperlinks?: PostHyperLink[];
-  sendAheadQuantity?: number;
-  heads?: number;
+  TaskNo: string;
+  ResourceGroupConstraints: PostResourceGroupConstraint[];
+  Name?: string | null;
+  ProductionTimePerUnit?: number;
+  SetupTime?: number;
+  TeardownTime?: number;
+  TransferTime?: number;
+  PredecessorTaskNos?: string[] | null;
+  TaskConnectionTaskNos?: string[] | null;
+  TaskNote?: string | null;
+  DisplayedTextFieldJobView?: DisplayedTextField;
+  DisplayedTextFieldResView?: DisplayedTextField;
+  ColorAs?: string | null;
+  Quantity?: number;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
+  HyperLinks?: PostHyperLink[];
+  SendAheadQuantity?: number;
+  Heads?: number;
 }
 
 export interface PatchComponentTask {
-  guid?: string | null;
-  taskNo?: string | null;
-  name?: string | null;
-  productionTimePerUnit?: number | null;
-  setupTime?: number | null;
-  teardownTime?: number | null;
-  transferTime?: number | null;
-  resourceGroupConstraints?: PostResourceGroupConstraint[] | null;
-  predecessors?: Identifier[] | null;
-  taskConnections?: Identifier[] | null;
-  taskNote?: string | null;
-  displayedTextFieldJobView?: DisplayedTextField | null;
-  displayedTextFieldResView?: DisplayedTextField | null;
-  colorAs?: string | null;
-  quantity?: number | null;
-  customFieldValue1?: string | null;
-  customFieldValue2?: string | null;
-  customFieldValue3?: string | null;
-  customFieldValue4?: string | null;
-  customFieldValue5?: string | null;
-  customFieldValue6?: string | null;
-  customFieldValue7?: string | null;
-  customFieldValue8?: string | null;
-  customFieldValue9?: string | null;
-  customFieldValue10?: string | null;
-  hyperLinks?: PatchHyperLink[] | null;
-  sendAheadQuantity?: number | null;
-  heads?: number | null;
+  Guid?: string | null;
+  TaskNo?: string | null;
+  Name?: string | null;
+  ProductionTimePerUnit?: number | null;
+  SetupTime?: number | null;
+  TeardownTime?: number | null;
+  TransferTime?: number | null;
+  ResourceGroupConstraints?: PatchResourceGroupConstraint[] | null;
+  PredecessorTaskNos?: string[] | null;
+  TaskConnectionTaskNos?: string[] | null;
+  TaskNote?: string | null;
+  DisplayedTextFieldJobView?: DisplayedTextField | null;
+  DisplayedTextFieldResView?: DisplayedTextField | null;
+  ColorAs?: string | null;
+  Quantity?: number | null;
+  CustomFieldValue1?: string | null;
+  CustomFieldValue2?: string | null;
+  CustomFieldValue3?: string | null;
+  CustomFieldValue4?: string | null;
+  CustomFieldValue5?: string | null;
+  CustomFieldValue6?: string | null;
+  CustomFieldValue7?: string | null;
+  CustomFieldValue8?: string | null;
+  CustomFieldValue9?: string | null;
+  CustomFieldValue10?: string | null;
+  HyperLinks?: PatchHyperLink[] | null;
+  SendAheadQuantity?: number | null;
+  Heads?: number | null;
 }
 
 // ============================================
@@ -114,19 +117,19 @@ export interface PatchComponentTask {
 // ============================================
 
 export interface GetComponent {
-  guid?: string | null;
-  name?: string | null;
-  tasks?: GetComponentTask[];
-  hyperLinks?: GetHyperLink[];
+  Guid?: string | null;
+  Name?: string | null;
+  Tasks?: GetComponentTask[];
+  HyperLinks?: GetHyperLink[];
 }
 
 export interface PostComponent {
-  name: string;
-  hyperlinks?: PostHyperLink[];
-  tasks?: PostComponentTask[];
+  Name: string;
+  HyperLinks?: PostHyperLink[];
+  Tasks?: PostComponentTask[];
 }
 
 export interface PatchComponent {
-  name?: string | null;
-  hyperLinks?: PatchHyperLink[] | null;
+  Name?: string | null;
+  HyperLinks?: PatchHyperLink[] | null;
 }

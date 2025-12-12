@@ -1,6 +1,7 @@
 /**
  * JPI API Common/Helper Schemas
  * Shared types used across multiple API categories
+ * Field names use PascalCase to match JPI API exactly
  */
 
 import { Weekday, DisplayedTextField } from './enums.js';
@@ -10,8 +11,8 @@ import { Weekday, DisplayedTextField } from './enums.js';
 // ============================================
 
 export interface Identifier {
-  guid: string;
-  name?: string | null;
+  Guid: string;
+  Name?: string | null;
 }
 
 // ============================================
@@ -19,18 +20,18 @@ export interface Identifier {
 // ============================================
 
 export interface GetHyperLink {
-  name?: string | null;
-  content?: string | null;
+  Name?: string | null;
+  Content?: string | null;
 }
 
 export interface PostHyperLink {
-  name: string;
-  content: string;
+  Name: string;
+  Content: string;
 }
 
 export interface PatchHyperLink {
-  name?: string | null;
-  content?: string | null;
+  Name?: string | null;
+  Content?: string | null;
 }
 
 // ============================================
@@ -38,13 +39,13 @@ export interface PatchHyperLink {
 // ============================================
 
 export interface GetCustomField {
-  name?: string | null;
-  defaultValue?: string | null;
+  Name?: string | null;
+  DefaultValue?: string | null;
 }
 
 export interface PatchCustomField {
-  name?: string | null;
-  defaultValue?: string | null;
+  Name?: string | null;
+  DefaultValue?: string | null;
 }
 
 // ============================================
@@ -52,32 +53,32 @@ export interface PatchCustomField {
 // ============================================
 
 export interface GetCalendarExceptionCategory {
-  name?: string | null;
-  color?: string | null;
+  Name?: string | null;
+  Color?: string | null;
 }
 
 export interface GetWorkTimePerWeekday {
-  dayOfWeek?: Weekday;
-  workTime?: string | null;
+  DayOfWeek?: Weekday;
+  WorkTime?: string | null;
 }
 
 export interface PostWorkTimePerWeekday {
-  dayOfWeek: Weekday;
-  workTime?: string | null;
+  DayOfWeek: Weekday;
+  WorkTime?: string | null;
 }
 
 export interface GetCalendarException {
-  date?: string | null;
-  workTime?: string | null;
-  note?: string | null;
-  category?: string | null;
+  Date?: string | null;
+  WorkTime?: string | null;
+  Note?: string | null;
+  Category?: string | null;
 }
 
 export interface PostCalendarException {
-  date: string;
-  workTime?: string | null;
-  note?: string | null;
-  category?: string | null;
+  Date: string;
+  WorkTime?: string | null;
+  Note?: string | null;
+  Category?: string | null;
 }
 
 // ============================================
@@ -85,24 +86,34 @@ export interface PostCalendarException {
 // ============================================
 
 export interface GetResourceGroupConstraint {
-  resourceConstraints?: Identifier[];
-  resourceUsage?: number;
-  taskConstraint?: Identifier;
-  resourceGroup?: Identifier;
+  ResourceConstraints?: Identifier[];
+  ResourceUsage?: number;
+  TaskConstraint?: Identifier;
+  ResourceGroup?: Identifier;
 }
 
 export interface PostResourceGroupConstraint {
-  resourceGroup: string;
-  resourceConstraints: string[];
-  resourceUsage?: number;
-  taskConstraint?: string | null;
+  ResourceGroup: string;
+  ResourceConstraints?: string[];
+  ResourceUsage?: number;
+  TaskConstraint?: string | null;
 }
 
 export interface PatchResourceGroupConstraint {
-  resourceGroup?: string | null;
-  resourceConstraints?: string[] | null;
-  resourceUsage?: number | null;
-  taskConstraint?: string | null;
+  ResourceGroup?: string | null;
+  ResourceConstraints?: string[] | null;
+  ResourceUsage?: number | null;
+  TaskConstraint?: string | null;
+}
+
+// ============================================
+// Task Connection Schemas
+// ============================================
+
+export interface GetTaskConnection {
+  Guid?: string | null;
+  Name?: string | null;
+  TaskNo?: string | null;
 }
 
 // ============================================
@@ -110,15 +121,15 @@ export interface PatchResourceGroupConstraint {
 // ============================================
 
 export interface GetJobSequenceCriteria {
-  guid?: string | null;
-  order?: number;
-  field?: string | null;
-  fieldValue?: string | null;
+  Guid?: string | null;
+  Order?: number;
+  Field?: string | null;
+  FieldValue?: string | null;
 }
 
 export interface GetResourceLoadData {
-  date?: string | null;
-  capacity?: number;
-  load?: number;
-  idle?: number;
+  Date?: string | null;
+  Capacity?: number;
+  Load?: number;
+  Idle?: number;
 }

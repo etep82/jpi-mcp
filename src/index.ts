@@ -60,21 +60,23 @@ const tools: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        name: { type: 'string', description: 'Component name' },
-        tasks: {
+        Name: { type: 'string', description: 'Component name' },
+        Tasks: {
           type: 'array',
           description: 'Array of component tasks',
           items: {
             type: 'object',
             properties: {
-              name: { type: 'string' },
-              duration: { type: 'number' },
-              resourceGroup: { type: 'string' }
-            }
+              TaskNo: { type: 'string', description: 'Task number (e.g., "T010")' },
+              Name: { type: 'string' },
+              ProductionTimePerUnit: { type: 'number', description: 'Production time in seconds' },
+              ResourceGroupConstraints: { type: 'array', description: 'Resource group constraints' }
+            },
+            required: ['TaskNo', 'ResourceGroupConstraints']
           }
         }
       },
-      required: ['name']
+      required: ['Name']
     }
   },
   {
@@ -95,7 +97,7 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         guid: { type: 'string', description: 'Component GUID' },
-        name: { type: 'string', description: 'New component name' }
+        Name: { type: 'string', description: 'New component name' }
       },
       required: ['guid']
     }
@@ -130,11 +132,14 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         componentGuid: { type: 'string', description: 'Component GUID' },
-        name: { type: 'string', description: 'Task name' },
-        duration: { type: 'number', description: 'Task duration in minutes' },
-        resourceGroup: { type: 'string', description: 'Resource group GUID' }
+        TaskNo: { type: 'string', description: 'Task number (e.g., "T010")' },
+        Name: { type: 'string', description: 'Task name' },
+        ProductionTimePerUnit: { type: 'number', description: 'Production time in seconds' },
+        SetupTime: { type: 'number', description: 'Setup time in seconds' },
+        TeardownTime: { type: 'number', description: 'Teardown time in seconds' },
+        ResourceGroupConstraints: { type: 'array', description: 'Resource group constraints array' }
       },
-      required: ['componentGuid', 'name']
+      required: ['componentGuid', 'TaskNo', 'ResourceGroupConstraints']
     }
   },
   {
@@ -145,8 +150,10 @@ const tools: Tool[] = [
       properties: {
         componentGuid: { type: 'string', description: 'Component GUID' },
         taskGuid: { type: 'string', description: 'Task GUID' },
-        name: { type: 'string', description: 'New task name' },
-        duration: { type: 'number', description: 'New duration' }
+        Name: { type: 'string', description: 'New task name' },
+        ProductionTimePerUnit: { type: 'number', description: 'New production time in seconds' },
+        SetupTime: { type: 'number', description: 'New setup time in seconds' },
+        TeardownTime: { type: 'number', description: 'New teardown time in seconds' }
       },
       required: ['componentGuid', 'taskGuid']
     }
@@ -180,14 +187,17 @@ const tools: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        name: { type: 'string', description: 'Job name' },
-        externalId: { type: 'string', description: 'External reference ID' },
-        dueDate: { type: 'string', description: 'Due date (ISO 8601)' },
-        releaseDate: { type: 'string', description: 'Release date (ISO 8601)' },
-        quantity: { type: 'number', description: 'Quantity to produce' },
-        tasks: { type: 'array', description: 'Array of job tasks' }
+        Name: { type: 'string', description: 'Job name' },
+        JobNo: { type: 'string', description: 'Job number/external ID' },
+        DueDate: { type: 'string', description: 'Due date (ISO 8601)' },
+        ReleaseDate: { type: 'string', description: 'Release date (ISO 8601)' },
+        Strategy: { type: 'string', description: 'Scheduling strategy (Asap, Jit, ASAP_PLUS, JIT_PLUS)', enum: ['Asap', 'Jit', 'ASAP_PLUS', 'JIT_PLUS'] },
+        OrderStatus: { type: 'string', description: 'Job status (Quoted, Ordered, Released, Standby)', enum: ['Quoted', 'Ordered', 'Released', 'Standby'] },
+        Customer: { type: 'string', description: 'Customer name' },
+        Quantity: { type: 'number', description: 'Quantity to produce' },
+        Tasks: { type: 'array', description: 'Array of job tasks' }
       },
-      required: ['name']
+      required: ['Name', 'Tasks']
     }
   },
   {
@@ -208,9 +218,13 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         guid: { type: 'string', description: 'Job GUID' },
-        name: { type: 'string', description: 'New job name' },
-        dueDate: { type: 'string', description: 'New due date' },
-        status: { type: 'string', description: 'Job status' }
+        Name: { type: 'string', description: 'New job name' },
+        DueDate: { type: 'string', description: 'New due date (ISO 8601)' },
+        ReleaseDate: { type: 'string', description: 'New release date (ISO 8601)' },
+        OrderStatus: { type: 'string', description: 'Job status', enum: ['Quoted', 'Ordered', 'Released', 'Standby'] },
+        Strategy: { type: 'string', description: 'Scheduling strategy', enum: ['Asap', 'Jit', 'ASAP_PLUS', 'JIT_PLUS'] },
+        Customer: { type: 'string', description: 'Customer name' },
+        Quantity: { type: 'number', description: 'Quantity' }
       },
       required: ['guid']
     }
@@ -245,11 +259,17 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         jobGuid: { type: 'string', description: 'Job GUID' },
-        name: { type: 'string', description: 'Task name' },
-        duration: { type: 'number', description: 'Task duration in minutes' },
-        resourceGroup: { type: 'string', description: 'Resource group GUID' }
+        TaskNo: { type: 'string', description: 'Task number (e.g., "T010")' },
+        Name: { type: 'string', description: 'Task name' },
+        ProductionTimePerUnit: { type: 'number', description: 'Production time in seconds' },
+        SetupTime: { type: 'number', description: 'Setup time in seconds' },
+        TeardownTime: { type: 'number', description: 'Teardown time in seconds' },
+        TransferTime: { type: 'number', description: 'Transfer time in seconds' },
+        ResourceGroupConstraints: { type: 'array', description: 'Resource group constraints array' },
+        Quantity: { type: 'number', description: 'Quantity' },
+        PredecessorTaskNos: { type: 'array', items: { type: 'string' }, description: 'Predecessor task numbers' }
       },
-      required: ['jobGuid', 'name']
+      required: ['jobGuid', 'TaskNo', 'ResourceGroupConstraints']
     }
   },
   {
@@ -260,9 +280,13 @@ const tools: Tool[] = [
       properties: {
         jobGuid: { type: 'string', description: 'Job GUID' },
         taskGuid: { type: 'string', description: 'Task GUID' },
-        name: { type: 'string', description: 'New task name' },
-        duration: { type: 'number', description: 'New duration' },
-        status: { type: 'string', description: 'Task status' }
+        Name: { type: 'string', description: 'New task name' },
+        ProductionTimePerUnit: { type: 'number', description: 'New production time in seconds' },
+        SetupTime: { type: 'number', description: 'New setup time in seconds' },
+        TeardownTime: { type: 'number', description: 'New teardown time in seconds' },
+        TaskStatus: { type: 'string', description: 'Task status', enum: ['Planned', 'Started', 'Finished', 'None', 'Standby'] },
+        StartNotEarlierThan: { type: 'string', description: 'Earliest start constraint (ISO 8601)' },
+        EndNotLaterThan: { type: 'string', description: 'Latest end constraint (ISO 8601)' }
       },
       required: ['jobGuid', 'taskGuid']
     }
@@ -298,10 +322,12 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         jobGuid: { type: 'string', description: 'Job GUID' },
-        componentGuid: { type: 'string', description: 'Component GUID to reference' },
-        quantity: { type: 'number', description: 'Quantity' }
+        ComponentGuid: { type: 'string', description: 'Component GUID to reference' },
+        TaskNo: { type: 'string', description: 'Task number for the JCR' },
+        Quantity: { type: 'number', description: 'Quantity' },
+        PredecessorTaskNos: { type: 'array', items: { type: 'string' }, description: 'Predecessor task numbers' }
       },
-      required: ['jobGuid', 'componentGuid']
+      required: ['jobGuid', 'ComponentGuid']
     }
   },
   {
@@ -312,7 +338,9 @@ const tools: Tool[] = [
       properties: {
         jobGuid: { type: 'string', description: 'Job GUID' },
         jcrGuid: { type: 'string', description: 'JCR GUID' },
-        quantity: { type: 'number', description: 'New quantity' }
+        TaskNo: { type: 'string', description: 'New task number' },
+        Quantity: { type: 'number', description: 'New quantity' },
+        PredecessorTaskNos: { type: 'array', items: { type: 'string' }, description: 'Predecessor task numbers' }
       },
       required: ['jobGuid', 'jcrGuid']
     }
@@ -484,10 +512,10 @@ const tools: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        name: { type: 'string', description: 'Template name' },
-        tasks: { type: 'array', description: 'Array of template tasks' }
+        Name: { type: 'string', description: 'Template name' },
+        HyperLinks: { type: 'array', description: 'Array of hyperlinks' }
       },
-      required: ['name']
+      required: ['Name']
     }
   },
   {
@@ -508,7 +536,7 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         guid: { type: 'string', description: 'Template GUID' },
-        name: { type: 'string', description: 'New template name' }
+        Name: { type: 'string', description: 'New template name' }
       },
       required: ['guid']
     }
@@ -543,10 +571,14 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         templateGuid: { type: 'string', description: 'Template GUID' },
-        name: { type: 'string', description: 'Task name' },
-        duration: { type: 'number', description: 'Task duration in minutes' }
+        TaskNo: { type: 'string', description: 'Task number (e.g., "T010")' },
+        Name: { type: 'string', description: 'Task name' },
+        ProductionTimePerUnit: { type: 'number', description: 'Production time in seconds' },
+        SetupTime: { type: 'number', description: 'Setup time in seconds' },
+        TeardownTime: { type: 'number', description: 'Teardown time in seconds' },
+        ResourceGroupConstraints: { type: 'array', description: 'Resource group constraints' }
       },
-      required: ['templateGuid', 'name']
+      required: ['templateGuid', 'TaskNo', 'ResourceGroupConstraints']
     }
   },
   {
@@ -557,8 +589,10 @@ const tools: Tool[] = [
       properties: {
         templateGuid: { type: 'string', description: 'Template GUID' },
         taskGuid: { type: 'string', description: 'Task GUID' },
-        name: { type: 'string', description: 'New task name' },
-        duration: { type: 'number', description: 'New duration' }
+        Name: { type: 'string', description: 'New task name' },
+        ProductionTimePerUnit: { type: 'number', description: 'New production time in seconds' },
+        SetupTime: { type: 'number', description: 'New setup time in seconds' },
+        TeardownTime: { type: 'number', description: 'New teardown time in seconds' }
       },
       required: ['templateGuid', 'taskGuid']
     }
@@ -594,9 +628,10 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         templateGuid: { type: 'string', description: 'Template GUID' },
-        componentGuid: { type: 'string', description: 'Component GUID to reference' }
+        ComponentGuid: { type: 'string', description: 'Component GUID to reference' },
+        Quantity: { type: 'number', description: 'Quantity' }
       },
-      required: ['templateGuid', 'componentGuid']
+      required: ['templateGuid', 'ComponentGuid']
     }
   },
   {
@@ -606,7 +641,8 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         templateGuid: { type: 'string', description: 'Template GUID' },
-        tcrGuid: { type: 'string', description: 'TCR GUID' }
+        tcrGuid: { type: 'string', description: 'TCR GUID' },
+        Quantity: { type: 'number', description: 'New quantity' }
       },
       required: ['templateGuid', 'tcrGuid']
     }
@@ -645,8 +681,8 @@ const tools: Tool[] = [
         createdAfter: { type: 'string', description: 'ISO 8601 timestamp' },
         eventType: {
           type: 'string',
-          description: 'Event type filter (JobAdded, JobModified, JobDeleted, TaskAdded, etc.)',
-          enum: ['JobAdded', 'JobModified', 'JobDeleted', 'TaskAdded', 'TaskModified', 'TaskDeleted', 'ResourceAdded', 'ResourceModified', 'ResourceDeleted']
+          description: 'Event type filter (JobCreated, JobUpdated, JobDeleted, TaskCreated, TaskUpdated, TaskDeleted, ResourceCreated, ResourceUpdated, ResourceDeleted, etc.)',
+          enum: ['JobCreated', 'JobUpdated', 'JobDeleted', 'TaskCreated', 'TaskUpdated', 'TaskDeleted', 'ComponentCreated', 'ComponentUpdated', 'ComponentDeleted', 'ResourceCreated', 'ResourceUpdated', 'ResourceDeleted', 'ResourceGroupCreated', 'ResourceGroupUpdated', 'ResourceGroupDeleted', 'ResourceCategoryCreated', 'ResourceCategoryUpdated', 'ResourceCategoryDeleted', 'JobTemplateCreated', 'JobTemplateUpdated', 'JobTemplateDeleted']
         }
       },
       required: ['createdAfter', 'eventType']
@@ -669,9 +705,9 @@ const tools: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        name: { type: 'string', description: 'Category name' }
+        Name: { type: 'string', description: 'Category name' }
       },
-      required: ['name']
+      required: ['Name']
     }
   },
   {
@@ -692,7 +728,7 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         guid: { type: 'string', description: 'Category GUID' },
-        name: { type: 'string', description: 'New category name' }
+        Name: { type: 'string', description: 'New category name' }
       },
       required: ['guid']
     }
@@ -725,11 +761,11 @@ const tools: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        name: { type: 'string', description: 'Group name' },
-        resourceCategory: { type: 'string', description: 'Category GUID (optional)' },
-        resources: { type: 'array', items: { type: 'string' }, description: 'Array of resource GUIDs' }
+        Name: { type: 'string', description: 'Group name' },
+        ResourceCategoryGuid: { type: 'string', description: 'Category GUID (optional)' },
+        Resources: { type: 'array', items: { type: 'string' }, description: 'Array of resource GUIDs' }
       },
-      required: ['name']
+      required: ['Name']
     }
   },
   {
@@ -750,9 +786,9 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         guid: { type: 'string', description: 'Group GUID' },
-        name: { type: 'string', description: 'New group name' },
-        resourceCategory: { type: 'string', description: 'New category GUID' },
-        resources: { type: 'array', items: { type: 'string' }, description: 'New resource GUIDs' }
+        Name: { type: 'string', description: 'New group name' },
+        ResourceCategoryGuid: { type: 'string', description: 'New category GUID' },
+        Resources: { type: 'array', items: { type: 'string' }, description: 'New resource GUIDs' }
       },
       required: ['guid']
     }
@@ -785,13 +821,13 @@ const tools: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        name: { type: 'string', description: 'Resource name' },
-        capacity: { type: 'number', description: 'Resource capacity (default 100)' },
-        finite: { type: 'boolean', description: 'Whether resource is finite' },
-        resourceGroups: { type: 'array', items: { type: 'string' }, description: 'Resource group GUIDs' },
-        worktimesPerWeekday: { type: 'array', description: 'Work schedule configuration' }
+        Name: { type: 'string', description: 'Resource name' },
+        Capacity: { type: 'number', description: 'Resource capacity (default 100)' },
+        Finite: { type: 'boolean', description: 'Whether resource is finite' },
+        ResourceGroupGuid: { type: 'string', description: 'Resource group GUID' },
+        WorktimesPerWeekday: { type: 'array', description: 'Work schedule configuration' }
       },
-      required: ['name', 'worktimesPerWeekday']
+      required: ['Name', 'WorktimesPerWeekday']
     }
   },
   {
@@ -812,10 +848,10 @@ const tools: Tool[] = [
       type: 'object',
       properties: {
         guid: { type: 'string', description: 'Resource GUID' },
-        name: { type: 'string', description: 'New resource name' },
-        capacity: { type: 'number', description: 'New capacity' },
-        finite: { type: 'boolean', description: 'Whether resource is finite' },
-        disabled: { type: 'boolean', description: 'Whether resource is disabled' }
+        Name: { type: 'string', description: 'New resource name' },
+        Capacity: { type: 'number', description: 'New capacity' },
+        Finite: { type: 'boolean', description: 'Whether resource is finite' },
+        Disabled: { type: 'boolean', description: 'Whether resource is disabled' }
       },
       required: ['guid']
     }
@@ -848,9 +884,9 @@ const tools: Tool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        planningStart: { type: 'string', description: 'Planning start date' },
-        planningHorizon: { type: 'number', description: 'Planning horizon in days' },
-        locale: { type: 'string', description: 'Locale setting' }
+        PlanningStart: { type: 'string', description: 'Planning start date' },
+        PlanningHorizon: { type: 'number', description: 'Planning horizon in days' },
+        Locale: { type: 'string', description: 'Locale setting' }
       },
       required: []
     }
