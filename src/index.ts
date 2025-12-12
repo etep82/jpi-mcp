@@ -916,7 +916,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>): Prom
             resources: '5 endpoints - Machine/worker management',
             settings: '2 endpoints - Application configuration'
           },
-          totalEndpoints: 66
+          totalEndpoints: 67
         };
 
       // Components

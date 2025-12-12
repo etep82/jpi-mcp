@@ -7,45 +7,30 @@ Model Context Protocol (MCP) server for [Just Plan It (JPI)](https://just-plan-i
 - **67 MCP Tools** covering all JPI API endpoints
 - Full CRUD operations for all JPI entities
 - Batch operations for efficient bulk updates
+- Cross-job task operations
 - Type-safe TypeScript implementation
+- Comprehensive error handling
 
-## Installation
+## Quick Start
 
-### Via npx (Recommended)
+### Prerequisites
 
-```bash
-npx jpi-mcp
-```
+- Node.js 18+
+- A JPI API token (get from [Just Plan It](https://just-plan-it.com))
 
-### Via npm (Global)
-
-```bash
-npm install -g jpi-mcp
-jpi-mcp
-```
-
-### From Source
+### Claude Code CLI
 
 ```bash
-git clone https://github.com/your-username/jpi-mcp.git
-cd jpi-mcp
-npm install
-npm run build
-npm start
+claude mcp add jpi \
+  --transport stdio \
+  --env JPI_API_TOKEN=your-api-token-here \
+  --scope user \
+  -- npx -y jpi-mcp
 ```
 
-## Configuration
+### Claude Desktop
 
-### Environment Variables
-
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `JPI_API_TOKEN` | Yes | - | Your JPI API token |
-| `JPI_BASE_URL` | No | `https://api.just-plan-it.com` | JPI API base URL |
-
-### MCP Client Configuration
-
-Add to your MCP client configuration (e.g., Claude Desktop):
+Add to your Claude Desktop configuration file:
 
 ```json
 {
@@ -61,21 +46,84 @@ Add to your MCP client configuration (e.g., Claude Desktop):
 }
 ```
 
-For local development:
+### Direct CLI Usage
 
-```json
-{
-  "mcpServers": {
-    "jpi": {
-      "command": "node",
-      "args": ["/path/to/jpi-mcp/dist/index.js"],
-      "env": {
-        "JPI_API_TOKEN": "your-api-token-here"
-      }
-    }
-  }
-}
+For other CLI tools or direct shell usage:
+
+**Unix/macOS/Linux:**
+```bash
+JPI_API_TOKEN=your-token npx -y jpi-mcp
 ```
+
+**Windows PowerShell:**
+```powershell
+$env:JPI_API_TOKEN="your-token"; npx -y jpi-mcp
+```
+
+**Windows CMD:**
+```cmd
+set JPI_API_TOKEN=your-token && npx -y jpi-mcp
+```
+
+### Environment Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `JPI_API_TOKEN` | Yes | - | Your JPI API token |
+| `JPI_BASE_URL` | No | `https://api.just-plan-it.com` | JPI API base URL |
+
+## Architecture
+
+```
+jpi-mcp/
+├── src/
+│   ├── index.ts          # MCP server setup, 67 tool definitions, request handlers
+│   ├── client.ts         # JpiClient class - HTTP client for JPI API v1
+│   └── types/            # TypeScript types matching JPI API schemas
+│       ├── index.ts      # Re-exports all types
+│       ├── enums.ts      # OrderStatus, Strategy, TaskStatus, EventType, etc.
+│       ├── schemas.ts    # Common schemas (Identifier, HyperLink, ResourceGroupConstraint)
+│       ├── jobs.ts       # Job, Task, JobComponentReference types
+│       ├── components.ts # Component, ComponentTask types
+│       ├── templates.ts  # JobTemplate, TemplateTask, TemplateComponentReference types
+│       ├── resources.ts  # Resource, ResourceGroup, ResourceCategory types
+│       ├── settings.ts   # Application settings types
+│       └── events.ts     # JPI event/change log types
+└── package.json
+```
+
+## Key Concepts
+
+### Jobs & Tasks
+- **Job**: A production order or work order containing one or more tasks
+- **Task**: A single operation within a job (e.g., cutting, welding, painting)
+- **Predecessors**: Tasks that must complete before a task can start
+- **TaskConnections**: Linked tasks for scheduling coordination
+
+### Components & References
+- **Component**: A reusable template of tasks that can be referenced by jobs
+- **JCR (Job Component Reference)**: Links a component to a job, creating tasks automatically
+- **TCR (Template Component Reference)**: Links a component to a job template
+
+### Resource Hierarchy
+```
+Resource Categories
+    └── Resource Groups
+            └── Resources (machines, workers, etc.)
+```
+
+### Time Units
+**IMPORTANT:** All time fields in the JPI API are in **SECONDS**, not minutes.
+
+| Field | Unit | Example |
+|-------|------|---------|
+| `ProductionTimePerUnit` | seconds | `3600` = 1 hour |
+| `SetupTime` | seconds | `900` = 15 minutes |
+| `TeardownTime` | seconds | `600` = 10 minutes |
+| `TransferTime` | seconds | `300` = 5 minutes |
+
+### Field Naming Convention
+All API fields use **PascalCase** to match the JPI API exactly (e.g., `DueDate`, `TaskNo`, `ResourceGroupConstraints`).
 
 ## Available Tools (67 Total)
 
@@ -101,7 +149,7 @@ For local development:
 | Tool | Description |
 |------|-------------|
 | `jpi_list_jobs` | List all jobs |
-| `jpi_create_job` | Create a new job |
+| `jpi_create_job` | Create a new job with tasks |
 | `jpi_get_job` | Get a job by GUID |
 | `jpi_update_job` | Update a job |
 | `jpi_delete_job` | Delete a job |
@@ -122,9 +170,9 @@ For local development:
 | `jpi_add_jcrs_batch` | Add multiple JCRs |
 | `jpi_update_jcrs_batch` | Update multiple JCRs |
 | `jpi_delete_jcrs_batch` | Delete multiple JCRs |
-| `jpi_create_tasks_cross_jobs` | Create tasks across jobs |
-| `jpi_update_tasks_cross_jobs` | Update tasks across jobs |
-| `jpi_delete_tasks_cross_jobs` | Delete tasks across jobs |
+| `jpi_create_tasks_cross_jobs` | Create tasks across multiple jobs |
+| `jpi_update_tasks_cross_jobs` | Update tasks across multiple jobs |
+| `jpi_delete_tasks_cross_jobs` | Delete tasks across multiple jobs |
 
 ### Job Templates (13 tools)
 | Tool | Description |
@@ -146,7 +194,7 @@ For local development:
 ### JPI Events (2 tools)
 | Tool | Description |
 |------|-------------|
-| `jpi_get_events` | Get events after a timestamp |
+| `jpi_get_events` | Get events (change log) after a timestamp |
 | `jpi_get_events_filtered` | Get events filtered by type |
 
 ### Resource Categories (5 tools)
@@ -184,51 +232,107 @@ For local development:
 
 ## Usage Examples
 
-### List All Jobs
+### Create a Job with Tasks
 
+```json
+{
+  "Name": "Production Order 001",
+  "JobNo": "PO-001",
+  "DueDate": "2024-12-31T17:00:00",
+  "ReleaseDate": "2024-12-01T08:00:00",
+  "Strategy": "Asap",
+  "OrderStatus": "Released",
+  "Customer": "ACME Corp",
+  "Quantity": 100,
+  "Tasks": [
+    {
+      "TaskNo": "T010",
+      "Name": "Laser Cutting",
+      "ProductionTimePerUnit": 60,
+      "SetupTime": 900,
+      "ResourceGroupConstraints": [
+        {
+          "ResourceGroup": "resource-group-guid-here"
+        }
+      ]
+    },
+    {
+      "TaskNo": "T020",
+      "Name": "Welding",
+      "ProductionTimePerUnit": 120,
+      "PredecessorTaskNos": ["T010"],
+      "ResourceGroupConstraints": [
+        {
+          "ResourceGroup": "welding-group-guid"
+        }
+      ]
+    }
+  ]
+}
 ```
-Use jpi_list_jobs to get all jobs
+
+### Update Task Status
+
+```json
+{
+  "jobGuid": "job-guid-here",
+  "taskGuid": "task-guid-here",
+  "TaskStatus": "Started"
+}
 ```
 
-### Create a New Job
+### Batch Create Jobs
 
-```
-Use jpi_create_job with:
-- name: "Production Order 001"
-- dueDate: "2024-12-31T00:00:00Z"
-- quantity: 100
-```
-
-### Update Job Status
-
-```
-Use jpi_update_job with:
-- guid: "job-guid-here"
-- status: "Released"
+```json
+{
+  "jobs": [
+    { "Name": "Job 1", "Tasks": [...] },
+    { "Name": "Job 2", "Tasks": [...] },
+    { "Name": "Job 3", "Tasks": [...] }
+  ]
+}
 ```
 
-### Batch Operations
+## Enums & Types
 
-```
-Use jpi_create_jobs_batch with an array of job objects to create multiple jobs at once
-```
+### OrderStatus
+| Value | Description |
+|-------|-------------|
+| `Quoted` | Job is quoted but not ordered |
+| `Ordered` | Job is ordered but not released |
+| `Released` | Job is released for production |
+| `Standby` | Job is on standby |
 
-## API Reference
+### Strategy
+| Value | Description |
+|-------|-------------|
+| `Asap` | Schedule as soon as possible |
+| `Jit` | Just-in-time scheduling |
+| `ASAP_PLUS` | ASAP with buffer |
+| `JIT_PLUS` | JIT with buffer |
 
-This MCP server wraps the JPI REST API v1. For detailed API documentation, refer to:
-- [JPI API Documentation](https://api.just-plan-it.com/swagger)
+### TaskStatus
+| Value | Description |
+|-------|-------------|
+| `Planned` | Task is planned |
+| `Started` | Task has started |
+| `Finished` | Task is complete |
+| `None` | No status |
+| `Standby` | Task is on standby |
 
 ## Error Handling
 
-All tools return structured responses. On error:
+All tools return structured error responses:
 
 ```json
 {
   "error": true,
   "status": 400,
   "statusText": "Bad Request",
-  "message": "Error description",
-  "body": { "details": "..." }
+  "message": "JPI API Error: 400 Bad Request",
+  "body": {
+    "details": "Validation failed for field 'Name'"
+  }
 }
 ```
 
@@ -251,6 +355,22 @@ npm run dev
 ```bash
 JPI_API_TOKEN=your-token npm start
 ```
+
+### From Source
+
+```bash
+git clone https://github.com/anthropics/jpi-mcp.git
+cd jpi-mcp
+npm install
+npm run build
+npm start
+```
+
+## API Reference
+
+This MCP server wraps the JPI REST API v1. For detailed API documentation:
+- [JPI API Swagger](https://api.just-plan-it.com/swagger)
+- [Just Plan It Website](https://just-plan-it.com)
 
 ## License
 
