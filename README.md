@@ -4,7 +4,7 @@ Model Context Protocol (MCP) server for [Just Plan It (JPI)](https://just-plan-i
 
 ## Features
 
-- **67 MCP Tools** covering all JPI API endpoints
+- **69 MCP Tools** covering all JPI API endpoints
 - Full CRUD operations for all JPI entities
 - Batch operations for efficient bulk updates
 - Cross-job task operations
@@ -77,7 +77,7 @@ set JPI_API_TOKEN=your-token && npx -y jpi-mcp
 ```
 jpi-mcp/
 ├── src/
-│   ├── index.ts          # MCP server setup, 67 tool definitions, request handlers
+│   ├── index.ts          # MCP server setup, 69 tool definitions, request handlers
 │   ├── client.ts         # JpiClient class - HTTP client for JPI API v1
 │   └── types/            # TypeScript types matching JPI API schemas
 │       ├── index.ts      # Re-exports all types
@@ -125,7 +125,7 @@ Resource Categories
 ### Field Naming Convention
 All API fields use **PascalCase** to match the JPI API exactly (e.g., `DueDate`, `TaskNo`, `ResourceGroupConstraints`).
 
-## Available Tools (67 Total)
+## Available Tools (69 Total)
 
 ### Helper (1 tool)
 | Tool | Description |
@@ -145,10 +145,12 @@ All API fields use **PascalCase** to match the JPI API exactly (e.g., `DueDate`,
 | `jpi_update_component_task` | Update a component task |
 | `jpi_delete_component_task` | Delete a component task |
 
-### Jobs (25 tools)
+### Jobs (27 tools)
 | Tool | Description |
 |------|-------------|
 | `jpi_list_jobs` | List all jobs |
+| `jpi_list_jobs_summary` | List jobs without task details (~80% smaller) |
+| `jpi_list_jobs_at_risk` | List jobs at risk of missing due dates |
 | `jpi_create_job` | Create a new job with tasks |
 | `jpi_get_job` | Get a job by GUID |
 | `jpi_update_job` | Update a job |

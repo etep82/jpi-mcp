@@ -171,13 +171,36 @@ const tools: Tool[] = [
     }
   },
 
-  // ========== Jobs (25 tools) ==========
+  // ========== Jobs (27 tools) ==========
   {
     name: 'jpi_list_jobs',
-    description: 'List all jobs in the JPI system. Jobs represent work orders or production orders.',
+    description: 'List all jobs in the JPI system with FULL task details. WARNING: Returns large payload. Use jpi_list_jobs_summary for job overviews or jpi_list_jobs_at_risk for risk analysis.',
     inputSchema: {
       type: 'object',
       properties: {},
+      required: []
+    }
+  },
+  {
+    name: 'jpi_list_jobs_summary',
+    description: 'List all jobs WITHOUT task details. Returns job metadata only (Name, DueDate, PlannedEnd, Status, etc.) with TaskCount. Use this for job overviews to reduce token usage (~80% smaller than jpi_list_jobs).',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+      required: []
+    }
+  },
+  {
+    name: 'jpi_list_jobs_at_risk',
+    description: 'List jobs at risk of missing due dates. Returns only jobs where IsDueDateExceeded=true OR BufferLevel < threshold. Minimal fields for maximum token efficiency (~95% smaller than jpi_list_jobs).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        bufferThreshold: {
+          type: 'number',
+          description: 'BufferLevel threshold (default: 1.0). Jobs with BufferLevel below this are considered at risk. Negative BufferLevel means already late.'
+        }
+      },
       required: []
     }
   },
@@ -908,7 +931,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>): Prom
           baseUrl: JPI_BASE_URL,
           categories: {
             components: '9 endpoints - Reusable building blocks',
-            jobs: '25 endpoints - Work orders and production orders',
+            jobs: '27 endpoints - Work orders and production orders',
             templates: '13 endpoints - Reusable job definitions',
             events: '2 endpoints - Change tracking',
             resourceCategories: '5 endpoints - Category management',
@@ -916,7 +939,7 @@ async function handleToolCall(name: string, args: Record<string, unknown>): Prom
             resources: '5 endpoints - Machine/worker management',
             settings: '2 endpoints - Application configuration'
           },
-          totalEndpoints: 67
+          totalEndpoints: 69
         };
 
       // Components
@@ -942,6 +965,43 @@ async function handleToolCall(name: string, args: Record<string, unknown>): Prom
       // Jobs
       case 'jpi_list_jobs':
         return await client.listJobs();
+      case 'jpi_list_jobs_summary': {
+        const jobs = await client.listJobs();
+        return jobs.map(job => {
+          const { Tasks, ComponentReferences, ...summary } = job;
+          return {
+            ...summary,
+            TaskCount: Tasks?.length || 0
+          };
+        });
+      }
+      case 'jpi_list_jobs_at_risk': {
+        const jobs = await client.listJobs();
+        const threshold = (args.bufferThreshold as number) ?? 1.0;
+        return jobs
+          .filter(job => job.IsDueDateExceeded || (job.BufferLevel !== undefined && job.BufferLevel < threshold))
+          .map(job => ({
+            Guid: job.Guid,
+            Name: job.Name,
+            JobNo: job.JobNo,
+            DueDate: job.DueDate,
+            PlannedStart: job.PlannedStart,
+            PlannedEnd: job.PlannedEnd,
+            ReleaseDate: job.ReleaseDate,
+            IsDueDateExceeded: job.IsDueDateExceeded,
+            BufferLevel: job.BufferLevel,
+            Buffer: job.Buffer,
+            OrderStatus: job.OrderStatus,
+            Strategy: job.Strategy,
+            Customer: job.Customer,
+            Quantity: job.Quantity,
+            JobProgress: job.JobProgress,
+            ExecuteStatus: job.ExecuteStatus,
+            TaskCount: job.Tasks?.length || 0,
+            FinishedTaskCount: job.Tasks?.filter(t => t.TaskStatus === 'Finished').length || 0,
+            PlannedTaskCount: job.Tasks?.filter(t => t.TaskStatus === 'Planned').length || 0
+          }));
+      }
       case 'jpi_create_job':
         return await client.createJob(args as any);
       case 'jpi_get_job':

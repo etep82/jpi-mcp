@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-JPI MCP Server is a Model Context Protocol (MCP) server that provides 67 tools for interacting with the Just Plan It (JPI) job scheduling and resource management API. It enables AI assistants to manage jobs, tasks, resources, templates, and components in the JPI system.
+JPI MCP Server is a Model Context Protocol (MCP) server that provides 69 tools for interacting with the Just Plan It (JPI) job scheduling and resource management API. It enables AI assistants to manage jobs, tasks, resources, templates, and components in the JPI system.
 
 ## Commands
 
@@ -23,7 +23,7 @@ JPI_API_TOKEN=your-token npm start
 
 ```
 src/
-├── index.ts       # MCP server setup, tool definitions (67 tools), and request handlers
+├── index.ts       # MCP server setup, tool definitions (69 tools), and request handlers
 ├── client.ts      # JpiClient class - HTTP client for JPI API v1
 └── types/         # TypeScript types matching JPI API schemas
     ├── index.ts   # Re-exports all types
@@ -57,7 +57,7 @@ The `JpiClient` class in `client.ts` wraps all JPI API endpoints with typed meth
 | Category | Tools | Endpoints |
 |----------|-------|-----------|
 | Components | 9 | CRUD + tasks |
-| Jobs | 25 | CRUD + tasks + JCRs + batch |
+| Jobs | 27 | CRUD + tasks + JCRs + batch + summary |
 | Templates | 13 | CRUD + tasks + TCRs |
 | Events | 2 | Change tracking |
 | Resources | 5 | CRUD |
